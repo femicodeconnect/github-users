@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { GithubContext } from '../context/context';
 import styled from 'styled-components';
 
 const UserInfo = () => {
-   return <h2>user info component</h2>;
+   //confirming access to the global state from this component
+   const data = useContext(GithubContext);
+   return <h2>user info component: {data}</h2>;
 };
 
 const Wrapper = styled.section`
