@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { GithubContext } from '../context/context';
 import styled from 'styled-components';
+import { ExampleChart } from './charts';
 
 const Repos = () => {
-   return <h2>repos component</h2>;
+   //destruture repos array from global state
+   const { repos } = useContext(GithubContext);
+   console.log(repos);
+
+   return (
+      <section className='section'>
+         <Wrapper className='section-center'>
+            <ExampleChart />;
+         </Wrapper>
+      </section>
+   );
 };
 
 const Wrapper = styled.div`
