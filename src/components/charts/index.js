@@ -1,3 +1,4 @@
 import ExampleChart from './ExampleChart';
+import Pie3D from './Pie3D';
 
-export { ExampleChart };
+export { ExampleChart, Pie3D };

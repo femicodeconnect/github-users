@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { GithubContext } from '../context/context';
 import styled from 'styled-components';
-import { ExampleChart } from './charts';
+import { ExampleChart, Pie3D } from './charts';
 
 const Repos = () => {
    //destruture repos array from global state
@@ -10,22 +10,23 @@ const Repos = () => {
    const chartData = [
       {
          label: 'HTML',
-         value: '120',
+         value: '25',
       },
       {
          label: 'CSS',
-         value: '65',
+         value: '80',
       },
       {
          label: 'Javascript',
-         value: '80',
+         value: '142',
       },
    ];
 
    return (
       <section className='section'>
          <Wrapper className='section-center'>
-            <ExampleChart data={chartData} />;
+            <Pie3D data={chartData} />
+            {/* <ExampleChart data={chartData} />; */}
          </Wrapper>
       </section>
    );
