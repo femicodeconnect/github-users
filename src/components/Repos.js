@@ -6,12 +6,26 @@ import { ExampleChart } from './charts';
 const Repos = () => {
    //destruture repos array from global state
    const { repos } = useContext(GithubContext);
-   console.log(repos);
+
+   const chartData = [
+      {
+         label: 'HTML',
+         value: '120',
+      },
+      {
+         label: 'CSS',
+         value: '65',
+      },
+      {
+         label: 'Javascript',
+         value: '80',
+      },
+   ];
 
    return (
       <section className='section'>
          <Wrapper className='section-center'>
-            <ExampleChart />;
+            <ExampleChart data={chartData} />;
          </Wrapper>
       </section>
    );
