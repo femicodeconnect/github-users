@@ -1,28 +1,28 @@
 import React, { useContext } from 'react';
 import { GithubContext } from '../context/context';
 import styled from 'styled-components';
-import { ExampleChart, Pie3D } from './charts';
+import { ExampleChart, Pie3D, Doughnut2D } from './charts';
 
 const Repos = () => {
    //destruture repos array from global state
    const { repos } = useContext(GithubContext);
 
-   //use the reduce function to get the languages & the total occurence of a particular language in the array
-   let languages = repos.reduce((total, item) => {
-      //get the language property for each repo in repos
-      const { language } = item;
+   const languages = repos.reduce((total, item) => {
+      const { language, stargazers_count } = item;
 
       //if language is null, move to next iteration
       if (!language) return total;
-
-      console.log(language);
 
       //for first occurence of a particular language
       if (!total[language]) {
          //total[language] = 1;
 
          //format into a form usable by the chart
-         total[language] = { label: language, value: 1 };
+         total[language] = {
+            label: language,
+            value: 1,
+            stars: stargazers_count,
+         };
       } else {
          //for another occurence of a particular lang
          //total[language] = total[language] + 1;
@@ -31,6 +31,7 @@ const Repos = () => {
          total[language] = {
             ...total[language],
             value: total[language].value + 1,
+            stars: total[language].stars + stargazers_count,
          };
       }
       return total;
@@ -38,16 +39,33 @@ const Repos = () => {
 
    console.log(languages);
 
+   //For most used language sorting ---
    //The following will be done on the languages object by chaining
    //1. turning languages object into an array
    //2. sorting the array of languages in order of popularity
    //3. slicing the array to get the first five items in it (if the array has more than 5 elements)
-   languages = Object.values(languages)
+   const mostUsed = Object.values(languages)
       .sort((a, b) => {
          return b.value - a.value;
       })
       .slice(0, 5);
-   console.log(languages);
+   console.log(mostUsed);
+
+   //For most stars per language sorting ---
+   //The following will be done on the languages object by chaining
+   //1. turning languages object into an array.
+   //2. sorting the array of languages in order of stars per language.
+   //3. replace the value in the value property of the object with the value of the star property in the object since it is the value property (not stars property) that will be used in the chart.
+   //4. slicing the array to get the first five items in it (if the array has more than 5 elements)
+   const mostPopular = Object.values(languages)
+      .sort((a, b) => {
+         return b.stars - a.stars;
+      })
+      .map((item) => {
+         return { ...item, value: item.stars };
+      })
+      .slice(0, 5);
+   console.log(mostPopular);
 
    const chartData = [
       {
@@ -68,8 +86,8 @@ const Repos = () => {
    return (
       <section className='section'>
          <Wrapper className='section-center'>
-            <Pie3D data={languages} />
-            {/* <ExampleChart data={chartData} />; */}
+            <Pie3D data={mostUsed} />
+            <Doughnut2D data={mostPopular} />;
          </Wrapper>
       </section>
    );
