@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { GithubContext } from '../context/context';
 import styled from 'styled-components';
-import { ExampleChart, Pie3D, Doughnut2D } from './charts';
+import { ExampleChart, Pie3D, Doughnut2D, Column3D, Bar3D } from './charts';
 
 const Repos = () => {
    //destruture repos array from global state
@@ -87,7 +87,9 @@ const Repos = () => {
       <section className='section'>
          <Wrapper className='section-center'>
             <Pie3D data={mostUsed} />
-            <Doughnut2D data={mostPopular} />;
+            <Column3D data={chartData} />
+            <Doughnut2D data={mostPopular} />
+            <Bar3D data={chartData} />
          </Wrapper>
       </section>
    );
