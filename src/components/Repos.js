@@ -67,29 +67,46 @@ const Repos = () => {
       .slice(0, 5);
    console.log(mostPopular);
 
-   const chartData = [
-      {
-         label: 'HTML',
-         value: '25',
-      },
-      {
-         label: 'CSS',
-         value: '80',
-      },
-      {
-         label: 'Javascript',
-         value: '142',
-      },
-   ];
+   //stars, forks
+   let { stars, forks } = repos.reduce(
+      (total, item) => {
+         const { stargazers_count, name, forks } = item;
 
-   //passing the languages array as data to be used in the chart
+         total.stars[stargazers_count] = {
+            label: name,
+            value: stargazers_count,
+         };
+
+         total.forks[forks] = {
+            label: name,
+            value: forks,
+         };
+
+         return total;
+      },
+      {
+         stars: {},
+         forks: {},
+      }
+   );
+
+   //The following transformation will be done on both the stars & forks object by chaining
+   //1. turning stars object into an array.
+   //2. get the last 5 star object items since they have the highest values for their value property.
+   //3. reverse the items in the array so that we can have the item with the highest figure in the value property to be the first element in the array
+   stars = Object.values(stars).slice(-5).reverse();
+   console.log(stars);
+
+   forks = Object.values(forks).slice(-5).reverse();
+   console.log(stars);
+
    return (
       <section className='section'>
          <Wrapper className='section-center'>
             <Pie3D data={mostUsed} />
-            <Column3D data={chartData} />
+            <Column3D data={stars} />
             <Doughnut2D data={mostPopular} />
-            <Bar3D data={chartData} />
+            <Bar3D data={forks} />
          </Wrapper>
       </section>
    );
