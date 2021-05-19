@@ -35,7 +35,7 @@ const ChartComponent = ({ data }) => {
             //Increase/Decrease the radius of the pie
             pieRadius: '45%',
             //Providing a color palette
-            paletteColors: '#ee4035, #7bc043, #0392cf',
+            paletteColors: '#e4572e, #29336c, #f3a712, #a8c686, 66bbc',
          },
          // Chart Data from props
          data,
