@@ -17,7 +17,7 @@ const GithubProvider = ({ children }) => {
 
    //number of requests that can still be made before the hourly reset by the api - only 60 requests allowed per hour by the api
    const [requests, setRequests] = useState(0);
-   const [loading, setIsLoading] = useState(true);
+   const [loading, setLoading] = useState(false);
    const [error, setError] = useState({ show: false, msg: '' });
 
    //function to get the number of requests that can still be made before the hourly reset by the api - only 60 requests allowed per hour by the api
@@ -43,6 +43,25 @@ const GithubProvider = ({ children }) => {
          });
    };
 
+   //function to get the details of a github user
+   const searchGithubUser = async (user) => {
+      toggleError(); //default values used here
+      setLoading(true);
+      const response = await axios(`${rootUrl}/users/${user}`).catch((error) =>
+         console.log(error)
+      );
+      console.log(response);
+      if (response) {
+         setGithubUser(response.data);
+      } else {
+         //no data from returned response - response.data = undefined.
+         toggleError(true, 'there is no user with that username');
+      }
+
+      checkRequests();
+      setLoading(false);
+   };
+
    //function to show/hide error
    const toggleError = (show = false, msg = '') => {
       setError({ show, msg });
@@ -53,7 +72,15 @@ const GithubProvider = ({ children }) => {
 
    return (
       <GithubContext.Provider
-         value={{ githubUser, repos, followers, requests, error }}
+         value={{
+            githubUser,
+            repos,
+            followers,
+            requests,
+            error,
+            searchGithubUser,
+            loading,
+         }}
       >
          {children}
       </GithubContext.Provider>
