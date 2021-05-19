@@ -57,18 +57,24 @@ const GithubProvider = ({ children }) => {
 
          const { login, followers_url } = response.data;
 
-         //fetch user repos using login value from response.data above
-         axios(`${rootUrl}/users/${login}/repos?per_page=100`).then(
-            (response) => {
-               setRepos(response.data);
-            }
-         );
-
-         // fetch user followers using the followers_url value from response.data above
-         axios(`${followers_url}?per_page=100`).then((response) => {
-            console.log(response);
-            setFollowers(response.data);
-         });
+         //refactor followers & repos fetch code to get api response at the same time so that all fetched items will be rendered simultaneously.
+         //This works by fireing other operations only when all promises from the fetch operations have been settled.
+         await Promise.allSettled([
+            axios(`${rootUrl}/users/${login}/repos?per_page=100`),
+            axios(`${followers_url}?per_page=100`),
+         ])
+            .then((results) => {
+               console.log(results);
+               const [repos, followers] = results;
+               const status = 'fulfilled';
+               if (repos.status === status) {
+                  setRepos(repos.value.data);
+               }
+               if (followers.status === status) {
+                  setFollowers(followers.value.data);
+               }
+            })
+            .catch((error) => console.log(error));
       } else {
          //function below is called to handle the error in the catch() part of this axios request function
          toggleError(true, 'there is no user with that username');
