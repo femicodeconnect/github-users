@@ -9,7 +9,7 @@ const Dashboard = () => {
    if (loading) {
       return (
          <main>
-            {/* <Navbar /> */}
+            <Navbar />
             <Search />
             <img src={loadingImage} alt='Loading...' className='loading-img' />
          </main>
@@ -18,7 +18,7 @@ const Dashboard = () => {
 
    return (
       <main>
-         {/* <Navbar /> */}
+         <Navbar />
          <Search />
          <Info />
          <User />

@@ -47,16 +47,41 @@ const GithubProvider = ({ children }) => {
    const searchGithubUser = async (user) => {
       toggleError(); //default values used here
       setLoading(true);
-      const response = await axios(`${rootUrl}/users/${user}`).catch((error) =>
-         console.log(error)
-      );
+      const response = await axios(`${rootUrl}/users/${user}`)
+         .then((response) => {
+            setGithubUser(response.data);
+
+            const { login, followers_url } = response.data;
+
+            //fetch user repos using login value from response.data above
+            axios(`${rootUrl}/users/${login}/repos?per_page=100`)
+               .then((response) => {
+                  // console.log(response);
+                  setRepos(response.data);
+               })
+               .catch((error) => {
+                  console.log(error);
+                  toggleError(true, '..error fetching repositories');
+               });
+
+            // fetch user followers using the followers_url value from response.data above
+            axios(`${followers_url}?per_page=100`)
+               .then((response) => {
+                  console.log(response);
+                  setFollowers(response.data);
+               })
+               .catch((error) => {
+                  //if there is an error, the mock data is shown on the screen
+                  console.log(error);
+                  toggleError(true, '..error fetching followers');
+               });
+         })
+         .catch((error) => {
+            //if there is an error, the mock data is shown on the screen
+            console.log('error in the making');
+            toggleError(true, 'there is no user with that username');
+         });
       console.log(response);
-      if (response) {
-         setGithubUser(response.data);
-      } else {
-         //no data from returned response - response.data = undefined.
-         toggleError(true, 'there is no user with that username');
-      }
 
       checkRequests();
       setLoading(false);
