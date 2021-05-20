@@ -15,6 +15,7 @@ ReactDOM.render(
          domain='dev-1tpiw-zp.us.auth0.com'
          clientId='FYiCAg45539wKU4xvHmSOSjxTjFaYT32'
          redirectUri={window.location.origin}
+         cacheLocation='localstorage'
       >
          <GithubProvider>
             <App />
@@ -23,3 +24,5 @@ ReactDOM.render(
    </React.StrictMode>,
    document.getElementById('root')
 );
+
+//cacheLocation = 'localstorage' ==> This stores the social media link of a user who signed in by a social media account. This value is mae available across all pages for a logged in user.
