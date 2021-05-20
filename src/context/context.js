@@ -50,7 +50,6 @@ const GithubProvider = ({ children }) => {
       const response = await axios(`${rootUrl}/users/${user}`).catch((error) =>
          console.log('error in the making')
       );
-      console.log(response);
 
       if (response) {
          setGithubUser(response.data);
@@ -64,7 +63,6 @@ const GithubProvider = ({ children }) => {
             axios(`${followers_url}?per_page=100`),
          ])
             .then((results) => {
-               console.log(results);
                const [repos, followers] = results;
                const status = 'fulfilled';
                if (repos.status === status) {

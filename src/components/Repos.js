@@ -37,8 +37,6 @@ const Repos = () => {
       return total;
    }, {});
 
-   console.log(languages);
-
    //For most used language sorting ---
    //The following will be done on the languages object by chaining
    //1. turning languages object into an array
@@ -49,7 +47,6 @@ const Repos = () => {
          return b.value - a.value;
       })
       .slice(0, 5);
-   console.log(mostUsed);
 
    //For most stars per language sorting ---
    //The following will be done on the languages object by chaining
@@ -65,7 +62,6 @@ const Repos = () => {
          return { ...item, value: item.stars };
       })
       .slice(0, 5);
-   console.log(mostPopular);
 
    //stars, forks
    let { stars, forks } = repos.reduce(
@@ -95,10 +91,8 @@ const Repos = () => {
    //2. get the last 5 star object items since they have the highest values for their value property.
    //3. reverse the items in the array so that we can have the item with the highest figure in the value property to be the first element in the array
    stars = Object.values(stars).slice(-5).reverse();
-   console.log(stars);
 
    forks = Object.values(forks).slice(-5).reverse();
-   console.log(stars);
 
    return (
       <section className='section'>

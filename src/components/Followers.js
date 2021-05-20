@@ -5,7 +5,6 @@ import styled from 'styled-components';
 function Followers() {
    //destruture githubUser from global state
    const { followers } = useContext(GithubContext);
-   console.log(followers);
 
    return (
       <Wrapper>
